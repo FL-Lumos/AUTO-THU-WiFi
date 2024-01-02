@@ -32,8 +32,8 @@
 
 <center>   
 
-![Alt text](.\img\image1.png)
-![Alt text](.\img\image2.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image1.png)
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image2.png)  
 
 </center>  
 
@@ -83,53 +83,70 @@
   
 <center>  
 
-![Alt text](.\img\image3.png)
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image3.png)
 
 </center>
-
+  
 **测试：** 在清华网络登录界面中选择断开连接，此时在浏览器中无法再正常上网。然后确保电脑依然是连接着Tsinghua-IPV4无线网的，此时双击运行auto-thu-wifi.exe，等待一段时间（大约20s左右），若系统自动连上网了，说明此时的转换后的.exe文件是正确的。
-
-
+  
+  
 ### 3.4 添加win11的系统服务（实现开机后，系统自动运行该自动登陆认证程序）：  
 &ensp;&ensp;&ensp;&ensp;首先，要将**Tsinghua-IPV4**无线网设置为<font face='黑体' color=#ff0000 size=4>**“在信号范围内时自动连接”**</font>， 同时取消启动无线网的自动连接。从而实现电脑开机或重启后能首先自动连接上**Tsinghua-IPV4**无线网。
-![Alt text](.\img\image7.png) 
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image7.png) 
 
+  
 &ensp;&ensp;&ensp;&ensp;接下来开始设置windows的系统服务。原理是使用srvany.exe来链接（相当于外壳），才能最终将我们自己的auto-thu-wifi.exe程序作为windows的系统服务运行。所以该过程可分为两步（都在cmd上执行）：  
 &ensp;&ensp;&ensp;&ensp;第一步是利用instsev.exe将srvany.exe自身注册为系统服务，
 需要在cmd中输入（要用管理员身份运行cmd，同时cmd的目录要和instsev.exe所在的目录一样）：
 
+
+  
     instsrv.exe AutoThuWifi(自定义的系统服务名称) “D:\Program Files\some_tool\auto-thu-wifi\srvany.exe”  
 
+
+  
 &ensp;&ensp;&ensp;&ensp;特别注意：如果电脑是64位的系统，可能会报错Unable to find the file at the given path，这可能是由于instsrv.exe与srvany.exe都是32位系统，由于兼容问题造成的具体的原因与解决方法参考链接[（原因与解决方法）](https://www.cnblogs.com/soundcode/p/4027859.html)。简单操作就是把instsrv.exe与srvany.exe两个软件都复制到windows/system32中，然后执行（**要用管理员身份运行cmd，同时cmd的目录要和instsev.exe所在的目录一样**）：
 
+
+  
     instsrv.exe AutoThuWifi(自定义的系统服务名称) “D:\Program Files\some_tool\auto-thu-wifi\srvany.exe”  
+
+
     
 &ensp;&ensp;&ensp;&ensp;第二步是将真正需要启动运行的程序（auto-thu-wifi.exe）与：srvany.exe提供的外壳配置起来（设计注册标准对应参数的设置）。
     
     REG ADD HKLM\SYSTEM\CurrentControlSet\Services\AutoThuWifi\Parameters
     REG ADD HKLM\SYSTEM\CurrentControlSet\Services\AutoThuWifi\Parameters /v Application /t REG_SZ /d “D:\\Program Files\\some_tool\\AutoThuWifi\\auto-thu-wifi.exe”
+  
 
-
+  
 （**注意：**如果报错，也可以打开注册表，手动在“HKLM\SYSTEM\CurrentControlSet\Services\”处创建AutoThuWifi\Parameter\文件夹，然后在Parameter\文件下创建值：
-![Alt text](.\img\image4.png)
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image4.png)
 
+  
 &ensp;&ensp;&ensp;&ensp;第三步是设置开机自动启动服务（实现开机后自动登录认证连上网）:
  &ensp;&ensp;&ensp;&ensp;**win系统设置路径** 搜索 > 服务 > AutoThuWifi，将其设置为 **“自动”**  
 
- ![Alt text](.\img\image5.png)
+  
+ ![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image5.png)
 
-![Alt text](.\img\image6.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image6.png)  
 
+  
+  
 **测试：** 在清华校园网网络登录界面选择断开连接，此时在浏览器中无法再正常上网。然后确保电脑的WiFi设置中是发现**Tsinghua-IPV4**无线网时能自动连接的，此时关机。然后再开机，等待1~2分钟后，查看“服务”程序，如果显示了**AutoThuWifi**服务是正在运行的，并且打开浏览器后电脑也能正常上网，说明该服务已创建成功。  
+
+ 
   
 ### 3.5设置电脑定时检测网络连接情况（若意外掉线，可自动重新登录认证校园无线网）  
 &ensp;&ensp;&ensp;&ensp;设置电脑每1小时定时启动检测一次（**实用场景：** 当远程电脑突然断网后，此时无法再远程控制该电脑进行重启联网，利用这一定时检测方法可实现电脑自动的重新连上无线网。）
 搜索 > 任务计划程序   
-
+  
+  
 #### 3.5.1 在任务计划的windows文件夹下创建AutoThuWifi文件夹：  
 <center>  
 
-![Alt text](.\img\image8.png)   
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image8.png)   
 
 </center> 
   
@@ -137,7 +154,7 @@
 
 <center>  
 
-![Alt text](.\img\image9.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image9.png)  
 
 </center>
 
@@ -145,21 +162,21 @@
 **“常规”栏：**
 <center>  
 
-![Alt text](.\img\image10.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image10.png)  
   
 </center>  
 
 **“触发器”栏：**  
 <center>  
 
-![Alt text](.\img\image11.png)
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image11.png)
 
 </center>  
   
 **“操作”栏：**  
 <center>  
 
-![Alt text](.\img\image12.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image12.png)  
 
 </center>  
   
@@ -168,17 +185,21 @@
   
 <center>  
 
-![Alt text](.\img\image13.png) 
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image13.png) 
 
 </center>  
   
 <font face='黑体' color=#ff0000 size=4>**注意：**</font>  
 该定时启动计划同样可能被Defender报毒误删，所以先试定在几分钟后自启动运行这个计划。然后，可能发现在“任务计划程序”中，这个计划已经被删除消失了，此时需要去查Defender的保护记录，将该计划的对应的被删除记录取消执行，后续在“任务计划程序”中，这个计划将重新出现，并且能避免Defender后续再将这个计划自动给删除掉。
 
+  
+  
 **测试：** 在清华网络登录界面中选择断开连接（为模拟远程控制时的突然断网场景，推荐用“远程桌面连接”来操作这一步，操作完成后，由于远程电脑断网，此时远程界面将显示断连无法再连接），此时在浏览器中无法再正常上网。然后确保电脑的WiFi设置中是发现**Tsinghua-IPV4**无线网时能自动连接的。
 然后等待一段时间（到任务计划中服务下一次开始自动执行的时间之后再过1~2分钟）  
-![Alt text](.\img\image14.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image14.png)  
 查看“任务计划”程序，如果显示了**AutoThuWifi**服务上次的运行结果是“操作完成”或者“正在运行”并且打开浏览器后电脑也能正常上网，说明该计划服务已创建成功。  
+
+
   
 ---
 ## 4. 远程断网时的关机、开机与重启：  
