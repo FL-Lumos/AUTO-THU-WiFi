@@ -128,14 +128,13 @@
  &ensp;&ensp;&ensp;&ensp;**win系统设置路径** 搜索 > 服务 > AutoThuWifi，将其设置为 **“自动”**  
 
   
- ![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image5.png)
-
-![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image6.png)  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image5.png)
 
   
   
 **测试：** 在清华校园网网络登录界面选择断开连接，此时在浏览器中无法再正常上网。然后确保电脑的WiFi设置中是发现**Tsinghua-IPV4**无线网时能自动连接的，此时关机。然后再开机，等待1~2分钟后，查看“服务”程序，如果显示了**AutoThuWifi**服务是正在运行的，并且打开浏览器后电脑也能正常上网，说明该服务已创建成功。  
-
+  
+![Alt text](https://github.com/FL-Lumos/AUTO-THU-WiFi/blob/main/img/image6.png)  
  
   
 ### 3.5设置电脑定时检测网络连接情况（若意外掉线，可自动重新登录认证校园无线网）  
